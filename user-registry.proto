@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package registry;
+
+service UserRegistry {
+    rpc GetUser(UserQuery) returns (User) {}
+    rpc UpdateUser(UpdateUserQuery) returns (VoidResponse) {}
+    rpc AddUser(AddUserRequest) returns (User) {}
+}
+
+message AddUserRequest {
+    string name = 1;
+    string login = 2;
+    string hash = 3;
+}
+
+message UpdateUserQuery {
+    UserQuery query = 1;
+    string name = 3;
+    string login = 4;
+    string hash = 5;
+    int32 tokenRevision = 6;
+}
+
+message UserQuery {
+    string id = 1;
+    string login = 2;
+}
+
+message VoidResponse {}
+
+message User {
+    string id = 1;
+    string name = 2;
+    string login = 3;
+    string hash = 4;
+    int32 tokenRevision = 5;
+}

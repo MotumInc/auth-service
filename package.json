@@ -1,0 +1,33 @@
+{
+  "name": "auth",
+  "version": "0.0.1",
+  "description": "Authentication microservice for Motum",
+  "main": "index.js",
+  "author": "q_link0_p",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "sh scripts/build.sh",
+    "proto": "sh scripts/proto.sh",
+    "start": "node out/indexx.js"
+  },
+  "devDependencies": {
+    "@types/dotenv-safe": "^8.1.0",
+    "@types/express": "^4.17.3",
+    "@types/jsonwebtoken": "^8.3.8",
+    "@types/password-hash": "^1.2.20",
+    "grpc-tools": "^1.8.1",
+    "grpc_tools_node_protoc_ts": "^2.5.10",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "@grpc/proto-loader": "^0.5.3",
+    "body-parser": "^1.19.0",
+    "dotenv-safe": "^8.2.0",
+    "express": "^4.17.1",
+    "google-protobuf": "^3.11.4",
+    "grpc": "^1.24.2",
+    "jsonwebtoken": "^8.5.1",
+    "password-hash": "^1.2.2"
+  }
+}
