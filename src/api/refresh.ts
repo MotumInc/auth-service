@@ -4,7 +4,7 @@ import { getUser } from "../util/user-registry"
 
 export default wrapAPI(async req => {
     const decoded = await verifyRefreshToken<Payload>(req.body)
-    const { id, login, tokenrevision } = decoded
+    const { id, tokenrevision } = decoded
     const user = await getUser({ id })
     if (!user) throw new APIError("User is not found")
     if (user.tokenrevision !== tokenrevision) throw new APIError("Invalid session")

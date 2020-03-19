@@ -4,10 +4,8 @@ import {
     User,
     AddUserRequest,
     UpdateUserQuery,
-    VoidResponse
 } from "../protobuf-gen/user-registry_pb"
 import { UserRegistryClient } from "../protobuf-gen/user-registry_grpc_pb"
-import { response } from "express"
 
 export type Query = Partial<UserQuery.AsObject>
 
@@ -28,14 +26,6 @@ const appendUser = (user: AddUserRequest) =>
         client.addUser(user, (err, res) => {
             if (err) reject(err)
             else resolve(res)
-        })
-    })
-
-const manipulateUser = (query: UpdateUserQuery) =>
-    new Promise<VoidResponse>((resolve, reject) => {
-        client.updateUser(query, (err, res) => {
-            if (err) resolve(res)
-            else reject(err)
         })
     })
 
