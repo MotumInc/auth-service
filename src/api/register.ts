@@ -5,24 +5,23 @@ import { generateAccessToken, generateRefreshToken } from "../util/token"
 import { addUser, getUser } from "../util/user-registry"
 
 const requestShape: Schema = {
-    loging: String,
+    login: String,
     password: String,
     name: String
 }
 
 export default wrapAPI(async req => {
-    if (req.method !== "POST") throw new APIError("Expected request to be of POST type", 400)
     if (!inShapeOf(req.body, requestShape)) throw new APIError("Invalid request format", 400)
     const { login, password, name } = req.body
     const user = await getUser({ login })
-    if (!user) throw new APIError("User already exists")
+    if (user) throw new APIError("User already exists")
     const hash = generate(password, { iterations: 10, saltLength: 20 })
     const apiUser = await addUser({ login, hash, name })
     if (!apiUser) throw new APIError("Error occured in registration process")
     const tokenPayload = {
-        id: user.id,
-        login: user.login,
-        tokenrevision: apiUser.tokenrevision
+        id: apiUser.id,
+        login: apiUser.login,
+        tokenRevision: apiUser.tokenRevision
     }
     const [accessToken, refreshToken] = await Promise.all([
         generateAccessToken(tokenPayload),

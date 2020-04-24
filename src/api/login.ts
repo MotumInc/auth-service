@@ -14,8 +14,12 @@ export default wrapAPI(async req => {
     const { login, password } = req.body
     const user = await getUser({ login })
     if (!user) throw new APIError("Cannot find user")
-    if (!verify(password, user.hash)) throw new APIError("Wrong password")
-    const payload = { id: user.id, login: user.login, tokenrevision: user.tokenrevision }
+    if (!verify(password, user.hash)) throw new APIError("Wrong password", 400)
+    const payload = {
+        id: user.id,
+        login: user.login,
+        tokenRevision: user.tokenRevision
+    }
     const [accessToken, refreshToken] = await Promise.all([
         generateAccessToken(payload),
         generateRefreshToken(payload)

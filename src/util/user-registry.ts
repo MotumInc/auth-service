@@ -4,26 +4,39 @@ import {
     User,
     AddUserRequest,
     UpdateUserQuery,
+    UserResponse,
+    VoidResponse,
 } from "../protobuf-gen/user-registry_pb"
 import { UserRegistryClient } from "../protobuf-gen/user-registry_grpc_pb"
 
 export type Query = Partial<UserQuery.AsObject>
 
-const { USER_REGISTRY_URL } = process.env
+let client: UserRegistryClient
 
-const client = new UserRegistryClient(USER_REGISTRY_URL!, credentials.createInsecure())
+export const connect = () => {
+    const { USER_REGISTRY_URL } = process.env
+    client = new UserRegistryClient(USER_REGISTRY_URL!, credentials.createInsecure())
+}
 
-const fetchUser = (query: UserQuery) =>
-    new Promise<User>((resolve, reject) => {
+const getUserRPC = (query: UserQuery) =>
+    new Promise<UserResponse>((resolve, reject) => {
         client.getUser(query, (err, res) => {
             if (err) reject(err)
             else resolve(res)
         })
     })
 
-const appendUser = (user: AddUserRequest) =>
+const addUserRPC = (user: AddUserRequest) =>
     new Promise<User>((resolve, reject) => {
         client.addUser(user, (err, res) => {
+            if (err) reject(err)
+            else resolve(res)
+        })
+    })
+
+const updateUserRPC = (request: UpdateUserQuery) => 
+    new Promise<VoidResponse>((resolve, reject) => {
+        client.updateUser(request, (err, res) => {
             if (err) reject(err)
             else resolve(res)
         })
@@ -33,8 +46,8 @@ export const getUser = async ({ id, login }: Query): Promise<User.AsObject | nul
     const request = new UserQuery()
     if (id !== undefined) request.setId(id)
     if (login !== undefined) request.setLogin(login)
-    const response = await fetchUser(request)
-    return response.toObject()
+    const response = await getUserRPC(request)
+    return response.getUser()?.toObject() || null
 }
 
 export const addUser = async ({ name, login, hash }: AddUserRequest.AsObject): Promise<User.AsObject> => {
@@ -42,13 +55,13 @@ export const addUser = async ({ name, login, hash }: AddUserRequest.AsObject): P
     request.setName(name)
     request.setHash(hash)
     request.setLogin(login)
-    const response = await appendUser(request)
+    const response = await addUserRPC(request)
     return response.toObject()
 }
 
 export const updateUser = async (
     { id, login: queryLogin }: Query,
-    { hash, login, name, tokenrevision }: Partial<Omit<UpdateUserQuery.AsObject, "query">>
+    { hash, login, name, tokenRevision }: Partial<Omit<UpdateUserQuery.AsObject, "query">>
 ): Promise<void> => {
     const request = new UpdateUserQuery()
     const query = new UserQuery()
@@ -58,5 +71,6 @@ export const updateUser = async (
     if (hash !== undefined) request.setHash(hash)
     if (login !== undefined) request.setLogin(login)
     if (name !== undefined) request.setName(name)
-    if (tokenrevision !== undefined) request.setTokenrevision(tokenrevision)
+    if (tokenRevision !== undefined) request.setTokenRevision(tokenRevision)
+    updateUserRPC(request)
 }

@@ -3,11 +3,12 @@ import { generateAccessToken, generateRefreshToken, Payload, verifyRefreshToken 
 import { getUser } from "../util/user-registry"
 
 export default wrapAPI(async req => {
-    const decoded = await verifyRefreshToken<Payload>(req.body)
-    const { id, tokenrevision } = decoded
+    if (!req.body.refreshToken) throw new APIError("No refresh token provided", 400)
+    const decoded = await verifyRefreshToken<Payload>(req.body.refreshToken)
+    const { id, tokenRevision } = decoded
     const user = await getUser({ id })
-    if (!user) throw new APIError("User is not found")
-    if (user.tokenrevision !== tokenrevision) throw new APIError("Invalid session")
+    if (!user) throw new APIError("User is not found", 404)
+    if (user.tokenRevision !== tokenRevision) throw new APIError("Invalid session", 401)
     const [accessToken, refreshToken] = await Promise.all([
         generateAccessToken(decoded),
         generateRefreshToken(decoded)

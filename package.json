@@ -9,11 +9,12 @@
   "scripts": {
     "build": "sh scripts/build.sh",
     "proto": "sh scripts/proto.sh",
-    "start": "node out/indexx.js"
+    "start": "node out/index.js"
   },
   "devDependencies": {
     "@types/dotenv-safe": "^8.1.0",
     "@types/express": "^4.17.3",
+    "@types/google-protobuf": "^3.7.2",
     "@types/jsonwebtoken": "^8.3.8",
     "@types/password-hash": "^1.2.20",
     "grpc-tools": "^1.8.1",

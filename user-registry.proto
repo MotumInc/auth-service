@@ -3,7 +3,7 @@ syntax = "proto3";
 package registry;
 
 service UserRegistry {
-    rpc GetUser(UserQuery) returns (User) {}
+    rpc GetUser(UserQuery) returns (UserResponse) {}
     rpc UpdateUser(UpdateUserQuery) returns (VoidResponse) {}
     rpc AddUser(AddUserRequest) returns (User) {}
 }
@@ -16,23 +16,31 @@ message AddUserRequest {
 
 message UpdateUserQuery {
     UserQuery query = 1;
-    string name = 3;
-    string login = 4;
-    string hash = 5;
-    int32 tokenRevision = 6;
+    oneof name_change { string name = 3; }
+    oneof login_change { string login = 4; }
+    oneof hash_change { string hash = 5; }
+    oneof token_revision_change { int32 token_revision = 6; }
 }
 
 message UserQuery {
-    string id = 1;
-    string login = 2;
+    oneof qualifier {
+        string id = 1;
+        string login = 2;
+    }
 }
 
 message VoidResponse {}
+
+message UserResponse {
+    oneof response {
+        User user = 2;
+    }
+}
 
 message User {
     string id = 1;
     string name = 2;
     string login = 3;
     string hash = 4;
-    int32 tokenRevision = 5;
+    int32 token_revision = 5;
 }
