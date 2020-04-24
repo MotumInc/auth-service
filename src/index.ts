@@ -1,11 +1,6 @@
 import express from "express";
-import { config } from "dotenv-safe"
 import bodyparser from "body-parser";
 import { register, login, refresh, invalidate } from "./api"
-import { connect } from "./util/user-registry";
-
-config()
-connect()
 
 const { PORT, HOSTNAME } = process.env
 

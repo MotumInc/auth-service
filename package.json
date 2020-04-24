@@ -9,7 +9,7 @@
   "scripts": {
     "build": "sh scripts/build.sh",
     "proto": "sh scripts/proto.sh",
-    "start": "node out/index.js"
+    "start": "node -r dotenv-safe/config out/index.js"
   },
   "devDependencies": {
     "@types/dotenv-safe": "^8.1.0",

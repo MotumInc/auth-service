@@ -11,12 +11,9 @@ import { UserRegistryClient } from "../protobuf-gen/user-registry_grpc_pb"
 
 export type Query = Partial<UserQuery.AsObject>
 
-let client: UserRegistryClient
+const { USER_REGISTRY_URL } = process.env
 
-export const connect = () => {
-    const { USER_REGISTRY_URL } = process.env
-    client = new UserRegistryClient(USER_REGISTRY_URL!, credentials.createInsecure())
-}
+const client = new UserRegistryClient(USER_REGISTRY_URL!, credentials.createInsecure())
 
 const getUserRPC = (query: UserQuery) =>
     new Promise<UserResponse>((resolve, reject) => {
