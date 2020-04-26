@@ -18,6 +18,9 @@ RUN yarn build
 
 # Production image
 FROM base AS release
+LABEL maintainer="Yaroslav Petryk"
+LABEL description="Authentication service for Motum API"
+LABEL version="0.1.0"
 
 COPY .env.example .
 COPY .env .
