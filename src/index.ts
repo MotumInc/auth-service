@@ -1,6 +1,6 @@
 import express from "express";
 import bodyparser from "body-parser";
-import { register, login, refresh, invalidate } from "./api"
+import { register, login, refresh, invalidate, serviceinfo } from "./api"
 
 const { PORT, BIND_ADDRESS } = process.env
 
@@ -10,6 +10,7 @@ app.post("/register", register)
 app.post("/login", login)
 app.post("/refresh", refresh)
 app.get("/invalidate", invalidate)
+app.get("/serviceinfo", serviceinfo)
 
 const port = parseInt(PORT!)
 if (isNaN(port)) throw new Error("PORT expected to be an integer")
