@@ -2,3 +2,4 @@ node_modules
 .env
 protobuf-gen
 out
+yarn-error.log
