@@ -2,7 +2,7 @@ import express from "express";
 import bodyparser from "body-parser";
 import { register, login, refresh, invalidate } from "./api"
 
-const { PORT, HOSTNAME } = process.env
+const { PORT, BIND_ADDRESS } = process.env
 
 const app = express();
 app.use(bodyparser.json())
@@ -13,5 +13,5 @@ app.get("/invalidate", invalidate)
 
 const port = parseInt(PORT!)
 if (isNaN(port)) throw new Error("PORT expected to be an integer")
-console.log(`Starting server on ${HOSTNAME}:${port}`)
-app.listen(port, HOSTNAME!, 10000)
+console.log(`Starting server on ${BIND_ADDRESS}:${port}`)
+app.listen(port, BIND_ADDRESS!, 10000)

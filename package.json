@@ -9,7 +9,8 @@
   "scripts": {
     "build": "sh scripts/build.sh",
     "proto": "sh scripts/proto.sh",
-    "start": "node -r dotenv-safe/config out/index.js"
+    "start": "node -r dotenv-safe/config out/index.js",
+    "docker": "docker build -t invictamotum/auth ."
   },
   "devDependencies": {
     "@types/dotenv-safe": "^8.1.0",
