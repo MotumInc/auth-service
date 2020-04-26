@@ -25,3 +25,4 @@ COPY --from=build /usr/motum/auth/out ./out
 COPY --from=deps /usr/motum/auth/prod_node_modules ./node_modules
 
 EXPOSE 5506
+CMD ["yarn", "start"]
