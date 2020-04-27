@@ -10,7 +10,6 @@ const requestShape: Schema = {
 }
 
 export default wrapAPI(async req => {
-    console.log(req.body)
     if (!inShapeOf(req.body, requestShape)) throw new APIError("Invalid request format", 400)
     const { login, password } = req.body
     const user = await getUser({ login })
