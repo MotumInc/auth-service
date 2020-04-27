@@ -16,7 +16,7 @@ const verify = (token: string, key: string) => new Promise<object>((resolve, rej
 
 export const generateAccessToken = (user: Payload) => generate(user, process.env.ACCESS_TOKEN_SECRET!, "2m")
 
-export const generateRefreshToken = (user: Payload) => generate(user, process.env.REFRESH_TOKEN_SECRET!, "7d")
+export const generateRefreshToken = (user: Payload) => generate(user, process.env.REFRESH_TOKEN_SECRET!, "30s")
 
 export const verifyAccessToken = <T extends object>(token: string): Promise<T> => verify(token, process.env.ACCESS_TOKEN_SECRET!) as any
 
