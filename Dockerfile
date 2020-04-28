@@ -14,7 +14,7 @@ RUN yarn install
 # Builder image
 FROM deps AS build
 COPY . .
-RUN yarn build
+RUN yarn build prod
 
 # Production image
 FROM base AS release
