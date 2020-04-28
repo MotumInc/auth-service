@@ -9,6 +9,7 @@
   "scripts": {
     "build": "sh scripts/build.sh",
     "proto": "sh scripts/proto.sh",
+    "clear": "rm -Rf out",
     "start": "node -r dotenv-safe/config out/index.js",
     "docker": "docker build -t invictamotum/auth ."
   },
