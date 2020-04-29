@@ -45,7 +45,6 @@ export default wrapAPI(async (req, prisma) => {
 
     const tokenPayload = {
         id: apiUser.id,
-        login: apiUser.login,
         tokenRevision: apiUser.tokenRevision
     }
     const [accessToken, refreshToken] = await Promise.all([

@@ -20,7 +20,6 @@ export default wrapAPI(async (req, prisma) => {
     if (!verify(password, user.hash)) throw new APIError("Wrong password", 400)
     const payload = {
         id: user.id,
-        login: user.login,
         tokenRevision: user.tokenRevision
     }
     const [accessToken, refreshToken] = await Promise.all([

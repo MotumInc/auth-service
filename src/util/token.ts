@@ -1,7 +1,9 @@
 import { sign, verify as verifyBase } from "jsonwebtoken"
-import { Credentials } from "@prisma/client";
 
-export type Payload = Pick<Credentials, "id" | "login" | "tokenRevision">
+export interface Payload {
+    id: number;
+    tokenRevision: number;
+}
 
 const generate = (user: Payload, key: string, expiresIn?: number | string) =>
     new Promise<string>((resolve, reject) => sign(user, key, { expiresIn }, (err, res) => {

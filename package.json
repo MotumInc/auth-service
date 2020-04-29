@@ -11,7 +11,7 @@
     "proto": "sh scripts/proto.sh",
     "clear": "rm -Rf out",
     "prisma": "prisma generate",
-    "start": "node -r dotenv-safe/config out/index.js",
+    "start": "node -r dotenv-safe/config out/server.js",
     "postinstall": "prisma generate",
     "docker": "docker build -t invictamotum/auth ."
   },
