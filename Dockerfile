@@ -7,6 +7,7 @@ COPY package.json .
 FROM base AS deps
 COPY yarn.lock .
 COPY .env .
+COPY schema.prisma .
 RUN yarn install --prod
 RUN cp -R node_modules prod_node_modules
 RUN yarn install
