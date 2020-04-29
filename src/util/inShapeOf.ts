@@ -1,6 +1,29 @@
-export type Type = String | Number | Boolean | Array<any> | Object | null | undefined | number | string | boolean
+export type Type 
+    = StringConstructor 
+    | NumberConstructor 
+    | BooleanConstructor 
+    | ArrayConstructor 
+    | ObjectConstructor 
+    | null 
+    | undefined 
+    | number 
+    | string 
+    | boolean
+
 export interface Schema {
     [key: string]: Type
+}
+
+type ObjectType<T extends Type> =
+    T extends StringConstructor ? string :
+    T extends NumberConstructor ? number :
+    T extends BooleanConstructor ? boolean :
+    T extends ArrayConstructor ? Array<any> :
+    T extends ObjectConstructor ? object :
+    T
+
+export type TypeOf<S extends Schema> = {
+    [key in keyof S]: ObjectType<S[key]>
 }
 
 /**

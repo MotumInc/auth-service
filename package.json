@@ -1,6 +1,6 @@
 {
   "name": "auth",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Authentication microservice for Motum",
   "main": "index.js",
   "author": "q_link0_p",

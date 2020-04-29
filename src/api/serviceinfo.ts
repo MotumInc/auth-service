@@ -1,7 +1,9 @@
 import { wrapAPI } from "../util/api";
+import { author, name, version, description } from "../../package.json";
 
 export default wrapAPI(async req => ({
-    "author": "q_link0_p",
-    "service": "auth",
-    "version": "0.1.0"
+    "service": name,
+    author, 
+    version,
+    description
 }))
