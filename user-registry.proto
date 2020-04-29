@@ -4,32 +4,28 @@ package registry;
 
 service UserRegistry {
     rpc GetUser(UserQuery) returns (UserResponse) {}
-    rpc UpdateUser(UpdateUserQuery) returns (VoidResponse) {}
     rpc AddUser(AddUserRequest) returns (User) {}
+    rpc PushActivityMetrics(ActivityMetricsRequest) returns (ActivityMetrics) {}
+}
+
+message ActivityMetrics {
+    uint32 steps = 1;
+    double distance = 2;
+    uint32 points = 3;
+}
+
+message ActivityMetricsRequest {
+    uint64 id = 1;
+    ActivityMetrics metrics = 2;
 }
 
 message AddUserRequest {
-    string name = 1;
-    string login = 2;
-    string hash = 3;
+    uint64 id = 1;
+    string name = 2;
+    bool using_metric = 3;
+    oneof avatar { string avatar_field = 4; }
+    oneof bio { string bio_field = 5; }
 }
-
-message UpdateUserQuery {
-    UserQuery query = 1;
-    oneof name_change { string name = 3; }
-    oneof login_change { string login = 4; }
-    oneof hash_change { string hash = 5; }
-    oneof token_revision_change { int32 token_revision = 6; }
-}
-
-message UserQuery {
-    oneof qualifier {
-        string id = 1;
-        string login = 2;
-    }
-}
-
-message VoidResponse {}
 
 message UserResponse {
     oneof response {
@@ -38,9 +34,16 @@ message UserResponse {
 }
 
 message User {
-    string id = 1;
+    uint64 id = 1;
     string name = 2;
-    string login = 3;
-    string hash = 4;
-    int32 token_revision = 5;
+    string bio = 3;
+    string avatar = 4;
+    uint32 steps = 5;
+    double distance = 6;
+    uint32 points = 7;
+    bool using_metric = 8;
+}
+
+message UserQuery {
+    uint64 id = 1;
 }

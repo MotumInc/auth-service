@@ -2,6 +2,7 @@ import { generate } from "password-hash"
 import { APIError, wrapAPI } from "../util/api"
 import inShapeOf, { TypeOf } from "../util/inShapeOf"
 import { generateAccessToken, generateRefreshToken } from "../util/token"
+import { addUser } from "../util/user-registry";
 
 const requestShape = {
     login: String,
@@ -39,6 +40,9 @@ export default wrapAPI(async (req, prisma) => {
         data: { hash, login }
     })
     if (!apiUser) throw new APIError("Error occured in registration process")
+
+    await addUser({ id: apiUser.id, name })
+
     const tokenPayload = {
         id: apiUser.id,
         login: apiUser.login,
