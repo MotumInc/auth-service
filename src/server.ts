@@ -52,8 +52,9 @@ const grpcServer = async (
 }
 
 
-Promise.all([prisma.connect(), grpcServer(BIND_ADDRESS!, SERVICE_PORT!, prisma)])
-    .then(() => {
+Promise.all([grpcServer(BIND_ADDRESS!, SERVICE_PORT!, prisma), prisma.connect()])
+    .then(([server]) => {
+        server.start()
         console.log(`Started gRPC server on ${BIND_ADDRESS}:${SERVICE_PORT}`)
 
         const app = express();

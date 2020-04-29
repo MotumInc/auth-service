@@ -54,5 +54,5 @@ export const wrapAPI = <T extends object | void>(responder: APIResponder<T>) =>
                     respond(res, Object.assign({ ok: true }, result || {}), 200)
                 )
                 .catch(error =>
-                    respond(res, { error: error.message || error }, error.statusCode || 500, error.headers)
+                    respond(res, { ok: false, error: error.message || error }, error.statusCode || 500, error.headers)
                 )

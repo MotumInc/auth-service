@@ -2,7 +2,10 @@ import { verifyAccessToken, Payload } from "../util/token"
 import { wrapAPI, APIError } from "../util/api"
 
 export default wrapAPI(async (req, prisma) => {
-    const token = req.headers["authorization"]
+    const authHeader = req.headers["authorization"]
+    if (!authHeader) throw new APIError("Unauthorized", 401)
+    const [bearer, token] = authHeader.split(" ")
+    if (bearer.toLowerCase() != "bearer") throw new APIError("Token expected to be of bearer type")
     if (!token) throw new APIError("Unauthorized", 401)
     const { id, tokenRevision } = await verifyAccessToken<Payload>(token)
 
