@@ -1,3 +1,4 @@
+yarn prisma &&
 yarn proto &&
 if [ "$1" = "prod" ]; then
     yarn clear

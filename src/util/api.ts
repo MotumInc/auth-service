@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { PrismaClient } from "@prisma/client";
 
 interface Headers {
     [key: string]: string | string[]
@@ -33,7 +34,7 @@ export class APIError extends Error {
     }
 }
 
-export type APIResponder<T extends object | void> = (req: Request) => Promise<T>
+export type APIResponder<T extends object | void> = (req: Request, prisma: PrismaClient) => Promise<T>
 
 /**
  * Function to wrap responder function in a convinience function. Boy do I love functions.
@@ -45,12 +46,13 @@ export type APIResponder<T extends object | void> = (req: Request) => Promise<T>
  * @returns wrapper funtion in shape of (req, res) => void
  * @author Yaroslav Petryk
  */
-export function wrapAPI<T extends object | void>(responder: APIResponder<T>): (req: Request, res: Response) => void {
-    return async (req, res) => {
-        try {
-            respond(res, Object.assign({ok: true}, await responder(req) || {}), 200)
-        } catch (error) {
-            respond(res, { error: error.message || error }, error.statusCode || 500, error.headers)
-        }
-    }
-}
+export const wrapAPI = <T extends object | void>(responder: APIResponder<T>) =>
+    (prisma: PrismaClient) =>
+        (req: Request, res: Response) =>
+            responder(req, prisma)
+                .then(result =>
+                    respond(res, Object.assign({ ok: true }, result || {}), 200)
+                )
+                .catch(error =>
+                    respond(res, { error: error.message || error }, error.statusCode || 500, error.headers)
+                )

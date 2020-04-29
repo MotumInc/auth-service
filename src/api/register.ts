@@ -2,7 +2,6 @@ import { generate } from "password-hash"
 import { APIError, wrapAPI } from "../util/api"
 import inShapeOf, { TypeOf } from "../util/inShapeOf"
 import { generateAccessToken, generateRefreshToken } from "../util/token"
-import { addUser, getUser } from "../util/user-registry"
 
 const requestShape = {
     login: String,
@@ -16,12 +15,14 @@ const uppercaseRegex = /[A-Z]/
 const lowecaseRegex = /[a-z]/
 const numberRegex = /[0-9]/
 
-export default wrapAPI(async req => {
+export default wrapAPI(async (req, prisma) => {
     if (!inShapeOf(req.body, requestShape)) throw new APIError("Invalid request format", 400)
     const { login: requestLogin, password, name } = req.body as TypeOf<typeof requestShape>
     const login = requestLogin.toLocaleLowerCase();
 
-    const user = await getUser({ login })
+    const user = await prisma.credentials.findOne({
+        where: { login }
+    })
     if (user) throw new APIError("User already exists")
 
     if (!loginRegex.test(login)) throw new APIError("Login contains invalid characters", 400)
@@ -32,7 +33,11 @@ export default wrapAPI(async req => {
     if (!numberRegex.test(password)) throw new APIError("Password should contain numbers", 400)
 
     const hash = generate(password, { iterations: 10, saltLength: 20 })
-    const apiUser = await addUser({ login, hash, name })
+    // TODO: update other service
+    // const apiUser = await addUser({ login, hash, name }) 
+    const apiUser = await prisma.credentials.create({
+        data: { hash, login }
+    })
     if (!apiUser) throw new APIError("Error occured in registration process")
     const tokenPayload = {
         id: apiUser.id,

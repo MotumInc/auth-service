@@ -1,7 +1,7 @@
 import { sign, verify as verifyBase } from "jsonwebtoken"
-import { User } from "../protobuf-gen/user-registry_pb"
+import { Credentials } from "@prisma/client";
 
-export type Payload = Pick<User.AsObject, "id" | "login" | "tokenRevision">
+export type Payload = Pick<Credentials, "id" | "login" | "tokenRevision">
 
 const generate = (user: Payload, key: string, expiresIn?: number | string) =>
     new Promise<string>((resolve, reject) => sign(user, key, { expiresIn }, (err, res) => {
