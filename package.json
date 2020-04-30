@@ -13,7 +13,7 @@
     "prisma": "prisma generate",
     "start": "node -r dotenv-safe/config out/server.js",
     "postinstall": "prisma generate",
-    "docker": "docker build -t invictamotum/auth ."
+    "docker": "source .env && docker build -t invictamotum/auth --build-arg port=$PORT ."
   },
   "devDependencies": {
     "@prisma/cli": "2.0.0-beta.3",
