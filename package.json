@@ -16,7 +16,7 @@
     "docker": "source .env && docker build -t invictamotum/auth --build-arg port=$PORT service_port=$SERVICE_PORT ."
   },
   "devDependencies": {
-    "@prisma/cli": "2.0.0-beta.3",
+    "@prisma/cli": "2.0.0-beta.4",
     "@types/dotenv-safe": "^8.1.0",
     "@types/express": "^4.17.3",
     "@types/google-protobuf": "^3.7.2",
@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@grpc/proto-loader": "^0.5.3",
-    "@prisma/client": "2.0.0-beta.3",
+    "@prisma/client": "2.0.0-beta.4",
     "body-parser": "^1.19.0",
     "dotenv-safe": "^8.2.0",
     "express": "^4.17.1",
