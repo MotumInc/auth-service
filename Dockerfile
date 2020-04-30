@@ -3,6 +3,7 @@ FROM node:12 AS base
 WORKDIR /usr/motum/auth
 ARG envfile=.env
 ARG port
+ARG service_port
 COPY package.json .
 
 # Dependancies image
@@ -31,4 +32,5 @@ COPY --from=build /usr/motum/auth/out ./out
 COPY --from=deps /usr/motum/auth/prod_node_modules ./node_modules
 
 EXPOSE ${port}
+EXPOSE ${service_port}
 CMD ["yarn", "start"]
