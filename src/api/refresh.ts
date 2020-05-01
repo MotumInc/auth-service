@@ -4,8 +4,7 @@ import { generateAccessToken, generateRefreshToken, Payload, verifyRefreshToken 
 export default wrapAPI(async (req, prisma) => {
     if (!req.body.refreshToken) throw new APIError("No refresh token provided", 400)
 
-    const decoded = await verifyRefreshToken<Payload>(req.body.refreshToken)
-    const { id, tokenRevision } = decoded
+    const { id, tokenRevision } = await verifyRefreshToken<Payload>(req.body.refreshToken)
 
     const user = await prisma.credentials.findOne({
         where: { id }
@@ -14,8 +13,8 @@ export default wrapAPI(async (req, prisma) => {
 
     if (user.tokenRevision !== tokenRevision) throw new APIError("Invalid session", 401)
     const [accessToken, refreshToken] = await Promise.all([
-        generateAccessToken(decoded),
-        generateRefreshToken(decoded)
+        generateAccessToken({ id, tokenRevision }),
+        generateRefreshToken({ id, tokenRevision })
     ])
     return { accessToken, refreshToken }
 })
