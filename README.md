@@ -11,3 +11,7 @@ Steps to get it up and running:
   - `PORT`: port on which REST authentication api will be available
   - `SERVICE_PORT`: port on which gRPC authentication api will be available
   - `BIND_ADDRESS`: address to bind REST api socket to
+- `yarn build`
+- `yarn start`
+
+Or after you add env variables use `yarn docker` to build docker image
