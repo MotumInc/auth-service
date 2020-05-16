@@ -4,8 +4,6 @@ import {
     User,
     AddUserRequest,
     UserResponse,
-    ActivityMetrics,
-    ActivityMetricsRequest
 } from "../protobuf-gen/user-registry_pb"
 import { UserRegistryClient } from "../protobuf-gen/user-registry_grpc_pb"
 
