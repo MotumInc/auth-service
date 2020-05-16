@@ -1,5 +1,5 @@
-# auth-service
 [![DeepScan grade](https://deepscan.io/api/teams/8152/projects/11538/branches/172733/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=8152&pid=11538&bid=172733)
+# auth-service
 Authentication micro-service for the "Intro to the cloud technologies" course
 
 Steps to get it up and running:
